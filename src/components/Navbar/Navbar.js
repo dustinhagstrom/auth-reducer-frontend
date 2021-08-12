@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 import { NavLink, Link } from "react-router-dom";
+
+import { AuthContext } from "../../context/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,6 +20,20 @@ const useStyles = makeStyles((theme) => ({
 function Navbar() {
   const classes = useStyles();
 
+  const {
+    state: { user },
+  } = useContext(AuthContext);
+
+  const isUserLoggedIn = user ? true : false;
+
+  const navLinkTitleOne = isUserLoggedIn ? "/profile" : "/login";
+
+  const navLinkDisplayOne = isUserLoggedIn ? `${user.email}` : "login";
+
+  const navLinkTitleTwo = isUserLoggedIn ? "/logout" : "/sign-up";
+
+  const navLinkDisplayTwo = isUserLoggedIn ? "Logout" : "Sign up";
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -26,15 +42,15 @@ function Navbar() {
             <Link to="/">React Auth Hooks Fullstack</Link>
           </Typography>
 
-          <NavLink activeStyle={{ color: "red" }} exact to={"/login"}>
+          <NavLink activeStyle={{ color: "red" }} exact to={navLinkTitleOne}>
             <Button color="inherit" style={{ color: "white" }}>
-              Login
+              {navLinkDisplayOne}
             </Button>
           </NavLink>
 
-          <NavLink activeStyle={{ color: "red" }} exact to={"/sign-up"}>
+          <NavLink activeStyle={{ color: "red" }} exact to={navLinkTitleTwo}>
             <Button color="inherit" style={{ color: "white" }}>
-              Sign Up
+              {navLinkDisplayTwo}
             </Button>
           </NavLink>
         </Toolbar>
