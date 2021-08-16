@@ -27,7 +27,7 @@ function reducer(state, action) {
 
 function AuthContextWrapper({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState); //state is set to initial state value
-  //
+  //dispatch allows us to create an action object.
   return (
     <AuthContext.Provider value={{ state, dispatch }}>
       {children}

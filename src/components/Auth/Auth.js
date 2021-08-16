@@ -11,6 +11,7 @@ import {
 import MuiAlert from "@material-ui/lab/Alert";
 import useChangeInputConfig from "../hooks/useInput";
 import useFetchAPI from "../hooks/useFetchAPI";
+import checkAuthCookie from "../hooks/checkAuthCookie";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,6 +29,8 @@ function Auth(props) {
   let isLoginRoute = props.match.path === "/login";
   let buttonTitle = isLoginRoute ? "Login" : "Sign up";
   let apiURL = isLoginRoute ? "/users/login" : "/users/create-user";
+
+  const { checkIfCookieExists } = checkAuthCookie();
 
   const [
     { isLoading, response, error, setError, setResponse },
@@ -115,12 +118,15 @@ function Auth(props) {
       </div>
     );
   }
-  console.log(response);
   if (response === "user created") {
     clearEmailInput();
     clearUsernameInput();
     clearPasswordInput();
     setResponse(null);
+  }
+
+  if (checkIfCookieExists()) {
+    props.history.push("/protected");
   }
 
   return (
