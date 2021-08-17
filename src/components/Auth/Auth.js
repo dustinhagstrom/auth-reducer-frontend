@@ -28,7 +28,7 @@ function Auth(props) {
   // console.log(props.match);
   let isLoginRoute = props.match.path === "/login";
   let buttonTitle = isLoginRoute ? "Login" : "Sign up";
-  let apiURL = isLoginRoute ? "/users/login" : "/users/create-user";
+  let apiURL = isLoginRoute ? "/users/login" : "/users/create-user"; //this will pass to axios call on useFetchAPi.js
 
   const { checkIfCookieExists } = checkAuthCookie();
 
@@ -99,6 +99,9 @@ function Auth(props) {
     );
   }
 
+  //snackbar is a pop up type of message from material ui.
+  //this cause a success variation to pop up with a message from
+  //response obj from server.
   function successMessage() {
     return (
       <Snackbar
@@ -131,6 +134,7 @@ function Auth(props) {
 
   return (
     <Grid container spacing={0} justifyContent="center">
+      {/* if there is a successmessagevalue then run func */}
       {successMessageValue && successMessage()}
       {error && errorMessage()}
       <form className={classes.root} onSubmit={handleOnSubmit}>
